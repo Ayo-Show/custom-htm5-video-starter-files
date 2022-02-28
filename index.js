@@ -4,6 +4,8 @@ const playButton = document.getElementById("play");
 const playbackIcons = document.querySelectorAll(".playback-icons use");
 const timeElapsed = document.getElementById("time-elapsed");
 const duration = document.getElementById("duration");
+const progressBar = document.getElementById("progress-bar");
+const seek = document.getElementById("seek");
 
 const videoWorks = !!document.createElement("video").canPlayType;
 if (videoWorks) {
@@ -42,9 +44,11 @@ function formatTime(timeInSeconds) {
 
 function initializeVideo() {
   const videoDuration = Math.round(video.duration);
+  seek.setAttribute('max', videoDuration);
+  progressBar.setAttribute('max', videoDuration);
   const time = formatTime(videoDuration);
   duration.innerText = `${time.minutes}:${time.seconds}`;
-  duration.setAttribute("datetime", `${time.minutes}m ${time.seconds}s`);
+  duration.setAttribute('datetime', `${time.minutes}m ${time.seconds}s`)
 }
 
 function updateTimeElapsed() {
@@ -53,8 +57,14 @@ function updateTimeElapsed() {
   timeElapsed.setAttribute("datetime", `${time.minutes}m ${time.seconds}s`);
 }
 
+function updateProgress() {
+  seek.value = Math.floor(video.currentTime);
+  progressBar.value = Math.floor(video.currentTime);
+}
+
 playButton.addEventListener("click", togglePlay);
 video.addEventListener("pause", updatePlayButton);
 video.addEventListener("play", updatePlayButton);
 video.addEventListener("loadedmetadata", initializeVideo);
 video.addEventListener("timeupdate", updateTimeElapsed);
+video.addEventListener("timeupdate", updateProgress);
