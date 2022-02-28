@@ -13,6 +13,7 @@ const volumeMute = document.querySelector('use[href="#volume-mute"]');
 const volumeLow = document.querySelector('use[href="#volume-low"]');
 const volumeHigh = document.querySelector('use[href="#volume-high"]');
 const volume = document.getElementById("volume");
+const playbackAnimation = document.getElementById("playback-animation");
 
 const videoWorks = !!document.createElement("video").canPlayType;
 if (videoWorks) {
@@ -128,6 +129,26 @@ function skipAhead(event) {
   seek.value = skipTo;
 }
 
+// animatePlayback displays an animation when
+// the video is played or paused
+function animatePlayback() {
+  playbackAnimation.animate(
+    [
+      {
+        opacity: 1,
+        transform: "scale(1)",
+      },
+      {
+        opacity: 0,
+        transform: "scale(1.3)",
+      },
+    ],
+    {
+      duration: 500,
+    }
+  );
+}
+
 playButton.addEventListener("click", togglePlay);
 video.addEventListener("pause", updatePlayButton);
 video.addEventListener("play", updatePlayButton);
@@ -139,3 +160,5 @@ seek.addEventListener("input", skipAhead);
 volume.addEventListener("input", updateVolume);
 video.addEventListener("volumechange", updateVolumeIcon);
 volumeButton.addEventListener("click", toggleMute);
+video.addEventListener("click", togglePlay);
+video.addEventListener("click", animatePlayback);
