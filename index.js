@@ -178,6 +178,21 @@ function updateFullscreenButton() {
   }
 }
 
+// hideControls hides the video controls when not in use
+// if the video is paused, the controls must remain visible
+function hideControls() {
+  if (video.paused) {
+    return;
+  }
+
+  videoControls.classList.add("hide");
+}
+
+// showControls displays the video controls
+function showControls() {
+  videoControls.classList.remove("hide");
+}
+
 // animatePlayback displays an animation when
 // the video is played or paused
 function animatePlayback() {
@@ -219,3 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 pipButton.addEventListener("click", togglePip);
+video.addEventListener("mouseenter", showControls);
+video.addEventListener("mouseleave", hideControls);
+videoControls.addEventListener("mouseenter", showControls);
+videoControls.addEventListener("mouseleave", hideControls);
