@@ -77,6 +77,16 @@ function updateVolumeIcon() {
   }
 }
 
+function toggleMute() {
+  video.muted = !video.muted;
+
+  if (video.muted) {
+    volume.setAttribute("data-volume", volume.value);
+    volume.value = 0;
+  } else {
+    volume.value = volume.dataset.volume;
+  }
+}
 
 function formatTime(timeInSeconds) {
   const result = new Date(timeInSeconds * 1000).toISOString().substr(11, 8);
@@ -128,4 +138,4 @@ seek.addEventListener("mousemove", updateSeekTooltip);
 seek.addEventListener("input", skipAhead);
 volume.addEventListener("input", updateVolume);
 video.addEventListener("volumechange", updateVolumeIcon);
-
+volumeButton.addEventListener("click", toggleMute);
